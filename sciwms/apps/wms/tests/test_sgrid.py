@@ -10,7 +10,7 @@ class TestCgrid(TestCase):
         add_server()
         add_group()
         add_user()
-        add_dataset("nasa_scb20111015.nc")
+        add_dataset("coawst_sgrid.nc")
 
     @classmethod
     def tearDownClass(cls):
@@ -44,3 +44,8 @@ class TestCgrid(TestCase):
     def test_getCaps(self):
         response = self.client.get('/wms/datasets/test/?REQUEST=GetCapabilities')
         self.assertEqual(response.status_code, 200)
+
+    def test_create_layers(self):
+        # Layers created in creation signal
+        d = Dataset.objects.get(name='test')
+        assert d.layer_set.count() == 12
